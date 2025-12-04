@@ -1,0 +1,15 @@
+<div class="layout">
+  <header>
+    <div class="logo">SA25S • Secure Access</div>
+    <nav *ngIf="auth.isAuthenticated()">
+      <a routerLink="/dashboard">Dashboard</a>
+      <a routerLink="/2fa/setup">Configurar 2FA</a>
+      <a routerLink="/account">Account</a>
+      <button (click)="logout()">Logout</button>
+    </nav>
+  </header>
+
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+</div>

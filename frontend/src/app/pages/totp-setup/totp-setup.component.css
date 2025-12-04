@@ -1,0 +1,7 @@
+.muted { color: var(--muted); font-size: 0.9rem; }
+.error { color: var(--danger); }
+.qr {
+  width: 220px;
+  border: 1px solid #1f2937;
+  border-radius: 12px;
+}

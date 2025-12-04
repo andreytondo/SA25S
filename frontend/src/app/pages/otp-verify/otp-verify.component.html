@@ -1,0 +1,14 @@
+<div class="panel grid">
+  <div>
+    <h2>Confirmar OTP</h2>
+    <p class="muted">Digite o código de 6 dígitos do seu app autenticador.</p>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="grid">
+    <label>OTP
+      <input type="text" formControlName="otp" placeholder="123456" maxlength="6">
+    </label>
+    <button type="submit">Validar e entrar</button>
+    <div class="error" *ngIf="error">{{ error }}</div>
+  </form>
+</div>

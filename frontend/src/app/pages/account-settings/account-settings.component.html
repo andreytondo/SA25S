@@ -1,0 +1,16 @@
+<div class="panel grid">
+  <div>
+    <h2>Minha Conta</h2>
+    <p class="muted">Gerencie seu segundo fator. Para desativar, confirme o OTP atual.</p>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="disable2fa()" class="grid">
+    <label>OTP atual
+      <input type="text" formControlName="otp" placeholder="123456" maxlength="6">
+    </label>
+    <button type="submit">Desativar 2FA</button>
+  </form>
+
+  <div class="success" *ngIf="message">{{ message }}</div>
+  <div class="error" *ngIf="error">{{ error }}</div>
+</div>

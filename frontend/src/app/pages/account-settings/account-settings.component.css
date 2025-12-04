@@ -1,0 +1,4 @@
+.muted { color: var(--muted); font-size: 0.9rem; }
+.error { color: var(--danger); }
+.success { color: #22c55e; }
+form label { display: grid; gap: 0.3rem; }

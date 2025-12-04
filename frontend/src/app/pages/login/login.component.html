@@ -1,0 +1,18 @@
+<div class="panel grid">
+  <div>
+    <h2>Entrar</h2>
+    <p class="muted">Acesse com email + senha. Se 2FA estiver ativo, pediremos o OTP.</p>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="grid">
+    <label>Email
+      <input type="email" formControlName="email" placeholder="voce@email.com">
+    </label>
+    <label>Senha
+      <input type="password" formControlName="password" placeholder="••••••••">
+    </label>
+    <button type="submit">Continuar</button>
+    <div class="muted">Novo aqui? <a routerLink="/register">Crie sua conta</a></div>
+    <div class="error" *ngIf="error">{{ error }}</div>
+  </form>
+</div>
