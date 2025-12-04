@@ -9,6 +9,7 @@ import jakarta.inject.Inject;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 @ApplicationScoped
@@ -16,35 +17,36 @@ public class JwtService {
 
     private static final Duration ACCESS_TOKEN_TTL = Duration.ofMinutes(15);
     private static final Duration TEMP_TOKEN_TTL = Duration.ofMinutes(5);
+    private static final String ISSUER = "https://example.com/issuer";
 
     @Inject
     JWTParser jwtParser;
 
     public String generateAccessToken(User user) {
         Instant now = Instant.now();
-        return Jwt
-                .claims(Map.of(
-                        "tokenType", "access",
-                        "email", user.email,
-                        "twoFactor", user.twoFactorEnabled))
-                .issuer("https://example.com/issuer")
-                .groups("User")
+        return Jwt.issuer(ISSUER)
                 .subject(String.valueOf(user.id))
+                .upn(user.email)
+                .groups(Set.of("User"))
+                .claim("tokenType", "access")
+                .claim("email", user.email)
+                .claim("twoFactor", user.twoFactorEnabled)
                 .issuedAt(now)
                 .expiresAt(now.plus(ACCESS_TOKEN_TTL))
-                .signWithSecret(secret());
+                .sign();
     }
 
     public String generateTemporaryToken(User user, String nonce) {
         Instant now = Instant.now();
-        return Jwt.claims(Map.of(
-                        "tokenType", "temp",
-                        "nonce", nonce,
-                        "email", user.email))
+        return Jwt.issuer(ISSUER)
                 .subject(String.valueOf(user.id))
+                .upn(user.email)
+                .claim("tokenType", "temp")
+                .claim("nonce", nonce)
+                .claim("email", user.email)
                 .issuedAt(now)
                 .expiresAt(now.plus(TEMP_TOKEN_TTL))
-                .signWithSecret(secret());
+                .sign();
     }
 
     public ParsedToken parse(String token) {
@@ -54,14 +56,6 @@ public class JwtService {
         } catch (Exception e) {
             return null;
         }
-    }
-
-    private String secret() {
-        String fromEnv = System.getenv("JWT_SECRET");
-        // HS256 requires >= 256-bit key; fallback dev key is 32+ chars.
-        return (fromEnv == null || fromEnv.isBlank())
-                ? "dev-super-secret-key-32bytes-min!"
-                : fromEnv;
     }
 
     public record ParsedToken(String subject, String tokenType, Object nonce) {

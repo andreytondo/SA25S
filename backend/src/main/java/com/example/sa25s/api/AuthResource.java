@@ -2,8 +2,8 @@ package com.example.sa25s.api;
 
 import com.example.sa25s.api.dto.*;
 import com.example.sa25s.service.AuthService;
-import io.quarkus.security.Authenticated;
 import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -38,7 +38,7 @@ public class AuthResource {
 
     @POST
     @Path("/2fa/setup")
-    @Authenticated
+    @RolesAllowed("User")
     @Transactional
     public Response setup2fa(@HeaderParam("Authorization") String authHeader) {
         TwoFaSetupResponse setup = authService.setup2fa(authHeader);
@@ -47,7 +47,7 @@ public class AuthResource {
 
     @POST
     @Path("/2fa/verify")
-    @Authenticated
+    @PermitAll
     @Transactional
     public Response verify(@Valid OtpVerifyRequest request) {
         LoginResponse response = authService.verifyOtp(request);
@@ -56,7 +56,7 @@ public class AuthResource {
 
     @POST
     @Path("/2fa/disable")
-    @Authenticated
+    @RolesAllowed("User")
     @Transactional
     public Response disable(@HeaderParam("Authorization") String authHeader, @Valid Disable2faRequest request) {
         return Response.ok(authService.disable2fa(authHeader, request)).build();
