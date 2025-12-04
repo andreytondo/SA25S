@@ -1,0 +1,121 @@
+# --------------------------------------------------
+# Quarkus / Java / Maven Gitignore
+# --------------------------------------------------
+
+# Build output
+target/
+build/
+
+# Quarkus dev mode cache
+.quarkus/
+.quarkus-*
+
+# Application configuration overrides (optional)
+*.env
+*.env.*
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Local runtime config
+application-local.properties
+application-local.yaml
+application-local.yml
+
+# Kubernetes / OpenShift generated files
+kubernetes/
+openshift/
+
+# Maven
+.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
+.mvn/timing.properties
+.mvn/timing/
+mvnw
+mvnw.cmd
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Gradle (if project uses it)
+.gradle/
+build/
+gradle-app.setting
+gradle-app.jar
+gradlew
+gradlew.bat
+
+# Java stuff
+*.class
+*.jar
+*.war
+*.nar
+*.ear
+*.aar
+*.class
+*.project
+*.classpath
+*.settings/
+*.prefs
+
+# IDE junk
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Docker / Podman build artifacts
+docker/*.tar
+docker/*.img
+*.oci
+
+# Native builds (GraalVM / Mandrel)
+*.native
+*.native.*
+*.exe
+
+# Quarkus Native build directories
+target/*-runner
+target/*-runner.jar
+target/*-runner.sha256
+target/*-runner-native-image-source-jar/
+
+# Test outputs
+surefire-reports/
+failsafe-reports/
+
+# Local dev services (Postgres, Kafka, Redis, etc.)
+dev-services/
+
+# Coverage tools
+jacoco.exec
+*.ec
+*.em
+coverage/
+.jacocoverage
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# LSP, jdt.ls, etc.
+.lsp/
+.jdt.ls/
