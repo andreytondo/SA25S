@@ -61,11 +61,12 @@ public class AuthService {
         if (user.otpLockedUntil != null && user.otpLockedUntil.isAfter(Instant.now())) {
             return StatusResponse.of("locked", "Account locked after repeated OTP failures").toLoginResponse();
         }
-        if (!user.twoFactorEnabled) {
+        boolean has2faSecret = user.encryptedSecretKey != null;
+        if (!has2faSecret) {
             String token = jwtService.generateAccessToken(user);
             return LoginResponse.immediateToken(token);
         }
-        // 2FA enabled -> produce short-lived temp token
+        // 2FA secret present -> require OTP to either activate or login
         String nonce = UUID.randomUUID().toString();
         user.tempTokenNonce = nonce;
         user.tempTokenExpiresAt = Instant.now().plus(Duration.ofMinutes(5));

@@ -37,15 +37,23 @@ public class TotpService {
 
     public boolean verifyCode(String base32Secret, String code) {
         try {
+            if (base32Secret == null || code == null) {
+                return false;
+            }
+            String normalized = code.replaceAll("\\s+", "").trim();
+            if (normalized.length() != 6) {
+                return false;
+            }
+
             byte[] keyBytes = base32.decode(base32Secret);
             Key key = new javax.crypto.spec.SecretKeySpec(keyBytes, generator.getAlgorithm());
 
-            // Accept small window to tolerate clock skew
+            // Accept wider window to tolerate clock skew
             Instant now = Instant.now();
-            for (int i = -1; i <= 1; i++) {
+            for (int i = -2; i <= 2; i++) {
                 Instant step = now.plusSeconds(generator.getTimeStep().getSeconds() * i);
                 int expected = generator.generateOneTimePassword(key, step);
-                if (String.format("%06d", expected).equals(code)) {
+                if (String.format("%06d", expected).equals(normalized)) {
                     return true;
                 }
             }

@@ -11,6 +11,8 @@
     <img [src]="qrCode" alt="QRCode TOTP" class="qr">
     <div class="muted">Segredo (para backup): {{ secret }}</div>
     <div class="muted">otpauth URL: {{ otpauth }}</div>
-    <div class="muted">Depois de cadastrar o app, vá para <a routerLink="/2fa/verify">Verificação de OTP</a>.</div>
+    <div class="muted">
+      Depois de cadastrar o app, faça logout e entre novamente: o sistema vai pedir o OTP para ativar o 2FA.
+    </div>
   </div>
 </div>
